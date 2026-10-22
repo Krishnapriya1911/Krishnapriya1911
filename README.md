@@ -15,12 +15,14 @@ I build data pipelines, backend services and AI-assisted applications. I enjoy t
 
 ### Projects I'm building
 
-| Project | What you'll find | Main tools |
+| Project | What works today | Explore |
 | --- | --- | --- |
-| [**Lakehouse Pipeline**](https://github.com/Krishnapriya1911/lakehouse-data-engineering-pipeline) | Medallion pipeline work and a reproducible local reference demo with data-quality checks | Python · PySpark · Delta Lake · Kafka |
-| [**CareerIQ**](https://github.com/Krishnapriya1911/CareerIQ) | Career preparation, interview and AI-assisted workflows | Next.js · TypeScript · Supabase |
-| [**Bharat Infra Research**](https://github.com/Krishnapriya1911/bharat-infra-research) | Evidence APIs, report validation and infrastructure research pipelines | Python · FastAPI · pytest · Docker |
-| [**PRIYARA**](https://github.com/Krishnapriya1911/PRIYARA) | A web application exploring personalized user interactions | JavaScript · Node.js · SQLite |
+| **Lakehouse Pipeline** | Reproducible batch reference demo, data-quality checks and an explorer for generated aggregates | [Live explorer](https://lakehouse-pipeline-explorer.krishnapriyakella07.chatgpt.site) · [Code](https://github.com/Krishnapriya1911/lakehouse-data-engineering-pipeline) |
+| **Bharat Infra Research** | Evidence API and rule-based research console; 72 tests and Docker smoke checks pass | [Code & setup](https://github.com/Krishnapriya1911/bharat-infra-research) · Hosting pending |
+| **CareerIQ** | Career preparation workflows; production build passes, with backend and sign-in verification pending | [Code](https://github.com/Krishnapriya1911/CareerIQ) · Deployment pending |
+| **PRIYARA** | Node.js and SQLite web application with authentication, products, orders and messaging routes | [Code](https://github.com/Krishnapriya1911/PRIYARA) · Demo verification pending |
+
+The Lakehouse explorer uses synthetic data and generated reference outputs. It demonstrates batch results; the full streaming/cloud stack is not hosted in that demo.
 
 ### My toolbox
 
