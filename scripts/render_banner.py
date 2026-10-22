@@ -11,6 +11,40 @@ FONT = '/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf'
 BOLD = '/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf'
 MONO = '/usr/share/fonts/truetype/dejavu/DejaVuSansMono.ttf'
 def font(size, path=FONT): return ImageFont.truetype(path, size)
+
+def butterfly(image, phase):
+    """A little guide with shaded wings, perspective flapping and a looping flight."""
+    x = 604 + 20 * math.sin(phase)
+    y = 155 + 69 * math.sin(phase * 2)
+    flap = .28 + .72 * (1 + math.sin(phase * 9)) / 2
+    layer = Image.new('RGBA', (180, 150))
+    pen = ImageDraw.Draw(layer)
+    # Draw large, then downsample for smooth wing edges.
+    def wing(side, points, fill, inset, shine):
+        scale = flap * (1 if side == -1 else .82 + .14 * math.cos(phase))
+        def project(ps):
+            return [(90 + side * px * scale, 76 + py) for px, py in ps]
+        pen.polygon(project(points), fill=fill)
+        pen.line(project(points + [points[0]]), fill='#e6dfff', width=2)
+        pen.polygon(project(inset), fill=shine)
+        pen.line(project([(0, 0), (24, -20), (39, -32)]), fill='#e2d7ff', width=2)
+        pen.line(project([(0, 1), (20, 22), (29, 26)]), fill='#aef9ee', width=2)
+        for dx, dy in [(38,-32),(45,-22),(28,26)]:
+            cx, cy = project([(dx,dy)])[0]
+            pen.ellipse((cx-2,cy-2,cx+2,cy+2), fill='#fff3ff')
+    upper = [(0,0),(12,-31),(31,-48),(47,-45),(54,-29),(46,-10),(26,4),(0,7)]
+    lower = [(0,4),(25,1),(37,15),(31,35),(18,42),(7,32),(0,10)]
+    for side in [-1,1]:
+        wing(side, lower, '#537dc3', [(3,8),(20,8),(28,20),(20,31),(9,26)], '#8be1dc')
+        wing(side, upper, '#7c67ce', [(5,-2),(16,-26),(33,-39),(42,-34),(34,-17)], '#c6acff')
+    pen.ellipse((85,56,95,98), fill='#d7f9ff', outline='#3b566f', width=2)
+    pen.line((89,64,89,90), fill='#ffffff', width=2)
+    pen.ellipse((85,52,95,62), fill='#f0edff')
+    pen.line((87,54,80,44,76,43), fill='#dacbff', width=2)
+    pen.line((93,54,100,44,104,43), fill='#dacbff', width=2)
+    layer = layer.resize((90,75), Image.Resampling.LANCZOS)
+    image.paste(layer, (round(x-45),round(y-38)), layer)
+
 base = Image.new('RGB', (W, H))
 pixels = base.load()
 for y in range(H):
@@ -60,6 +94,7 @@ for n in range(90):
     count=min(len(role), (n%30)*2+1)
     d.text((38, 220), '> '+role[:count]+('|' if n%10<6 else ''), font=font(20, MONO), fill='#89e5cf')
     d.text((725, 283), 'BUILD. TEST. REFINE.', font=font(12, MONO), fill='#b8c7db')
+    butterfly(im, phase)
     frames.append(im)
 palette = frames[0].quantize(colors=96)
 frames[20].save(OUT/'profile-banner-static.png')
